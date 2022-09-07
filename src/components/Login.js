@@ -3,14 +3,23 @@ import { Link } from "react-router-dom";
 import { Form, Alert } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import GoogleButton from "react-google-button";
-
+import { useUserAuth } from "../UserAuthContext";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { logIn } = useUserAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      await logIn(email, password);
+      navigate("/");
+    } catch (e) {
+      setError(e.message);
+    }
   };
 
   const handleGoogleSignIn = async (e) => {
