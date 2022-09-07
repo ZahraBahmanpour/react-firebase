@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form, Alert, InputGroup, Button } from "react-bootstrap";
+import BookDataService from "../services/book.services";
 
 const AddBook = () => {
   const [title, setTitle] = useState("");
@@ -9,6 +10,14 @@ const AddBook = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const newBook = { title, author, status };
+      const res = await BookDataService.addBooks(newBook);
+      setMessage({ error: false, msg: "Successfully Added" });
+      console.log(res);
+    } catch (e) {
+      setMessage({ error: true, msg: e.message });
+    }
   };
 
   return (
