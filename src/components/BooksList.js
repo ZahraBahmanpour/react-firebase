@@ -12,6 +12,11 @@ const BooksList = () => {
   useEffect(() => {
     getBooks();
   }, []);
+
+  const handleDelete = async (id) => {
+    await BookDataService.deleteBook(id);
+    getBooks();
+  };
   return (
     <>
       <div className="mb-2">
@@ -43,7 +48,11 @@ const BooksList = () => {
                   <Button variant="secondary" className="edit">
                     Edit
                   </Button>
-                  <Button variant="danger" className="delete">
+                  <Button
+                    variant="danger"
+                    className="delete"
+                    onClick={() => handleDelete(doc.id)}
+                  >
                     Delete
                   </Button>
                 </td>
