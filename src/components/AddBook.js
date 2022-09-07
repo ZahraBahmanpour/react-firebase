@@ -1,20 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Alert, InputGroup, Button } from "react-bootstrap";
 import BookDataService from "../services/book.services";
 
-const AddBook = () => {
+const AddBook = ({ bookId }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [status, setStatus] = useState(false);
   const [message, setMessage] = useState({ error: false, msg: "" });
+  console.log(bookId);
+
+  useEffect(() => {
+    const getBook = async () => {
+      setMessage("");
+      try {
+        const doc = await BookDataService.getBook(bookId);
+        console.log("the record is :", doc.data());
+        setTitle(doc.data().title);
+        setAuthor(doc.data().author);
+        setStatus(doc.data().status);
+      } catch (err) {
+        setMessage({ error: true, msg: err.message });
+      }
+    };
+    if (bookId) {
+      getBook();
+    }
+  }, [bookId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const newBook = { title, author, status };
     try {
-      const newBook = { title, author, status };
-      const res = await BookDataService.addBooks(newBook);
-      setMessage({ error: false, msg: "Successfully Added" });
-      console.log(res);
+      if (bookId) {
+        await BookDataService.updateBook(bookId, newBook);
+        setMessage({ error: false, msg: "Successfully Updated!" });
+      } else {
+        const res = await BookDataService.addBooks(newBook);
+        setMessage({ error: false, msg: "Successfully Added" });
+        console.log(res);
+      }
     } catch (e) {
       setMessage({ error: true, msg: e.message });
     }

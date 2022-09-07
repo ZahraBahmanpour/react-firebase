@@ -1,21 +1,24 @@
+import { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import AddBook from "./components/AddBook";
 import BooksList from "./components/BooksList";
 
 function App() {
+  const [bookId, setBookId] = useState("");
+
   return (
     <>
       <Container style={{ width: "400px" }}>
         <Row>
           <Col>
-            <AddBook />
+            <AddBook bookId={bookId} />
           </Col>
         </Row>
       </Container>
       <Container>
         <Row>
           <Col>
-            <BooksList />
+            <BooksList handleEdit={(id) => setBookId(id)} />
           </Col>
         </Row>
       </Container>

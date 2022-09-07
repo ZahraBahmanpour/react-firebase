@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 import BookDataService from "../services/book.services";
 
-const BooksList = () => {
+const BooksList = ({ handleEdit }) => {
   const [books, setBooks] = useState([]);
   const getBooks = async () => {
     const data = await BookDataService.getAllBooks();
@@ -45,7 +45,11 @@ const BooksList = () => {
                 <td>{doc.author}</td>
                 <td>{doc.status}</td>
                 <td>
-                  <Button variant="secondary" className="edit">
+                  <Button
+                    variant="secondary"
+                    className="edit"
+                    onClick={() => handleEdit(doc.id)}
+                  >
                     Edit
                   </Button>
                   <Button
