@@ -1,28 +1,13 @@
-import { useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import AddBook from "./components/AddBook";
-import BooksList from "./components/BooksList";
+import { Routes, Route } from "react-router-dom";
+import Login from "./components/Login";
+import Home from "./components/Home";
 
 function App() {
-  const [bookId, setBookId] = useState("");
-
   return (
-    <>
-      <Container style={{ width: "400px" }}>
-        <Row>
-          <Col>
-            <AddBook bookId={bookId} />
-          </Col>
-        </Row>
-      </Container>
-      <Container>
-        <Row>
-          <Col>
-            <BooksList handleEdit={(id) => setBookId(id)} />
-          </Col>
-        </Row>
-      </Container>
-    </>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="login" element={<Login />} />
+    </Routes>
   );
 }
 
